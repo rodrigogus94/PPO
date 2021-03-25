@@ -1,1 +1,0 @@
-conversores.AbstractEntity
