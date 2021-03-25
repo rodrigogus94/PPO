@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+
+        <title>Apresentar Servidor</title>
+ <style type="text/css">
+            body {
+                background-image: url(Imagens/index_image.jpg);
+                background-repeat: no-repeat;
+                -moz-background-size: 100% 210%;
+                -webkit-background-size: 100% 210%;
+                background-size: 100% 165%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+       <h:form>
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = 'Login.xhtml';
+                </script> 
+            </c:if>
+            
+            <p:growl id="growl" showDetail="true" sticky="false" life="200"/>
+
+            <p:growl id="menu"/> 
+       <p:menubar>
+                <p:menuitem value="Início" icon="ui-icon-home" url="index.xhtml"/>
+
+                <p:submenu label="Atividades">
+                      <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraAtividade.xhtml"/>
+                        <p:menuitem value="Visualizar Atividades" icon="ui-icon-search" update="menu" url="ApresentaAtividade.xhtml"/>
+                        <p:separator /> 
+                    </p:submenu>
+
+               
+
+                <p:submenu label="Plano Atividade">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraPlano.xhtml"/>
+                    <p:menuitem value="Visualizar Planos" icon="ui-icon-search" update="menu" url="ApresentaPlano.xhtml"/>
+
+
+                    <p:separator /> 
+                </p:submenu>
+
+                <p:submenu label="Servidor" icon="ui-icon-suitcase">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastroServidor.xhtml"/>
+                    <p:menuitem value="Visualizar Servidor" icon="ui-icon-search" update="menu" url="ApresentarServidor.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+
+                <p:submenu label="Coordenação" >
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraCoordenacao.xhtml"/>
+                    <p:menuitem value="Visualizar Coordenação" icon="ui-icon-search" update="menu" url="ApresentaCoordenacao.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+                <p:menuitem icon="ui-icon-power" value="Sair" action="#{controleLogin.sair()}" oncomplete="location.href='Login.xhtml'"/>
+            </p:menubar>       
+            
+            <center>
+                <p:panel header="Servidores Cadastrados">
+                    <p:dataTable id="tab" value="#{controladorservidor.recuperarTodosServidores()}" var="servidores"
+                                 rowKey="#{servidores.codigo}" paginator="true" rows="10"
+                                 selectionMode="single" selection="#{controladorservidor.selectedS}" emptyMessage="Náo há servidores cadastrados.">
+
+                        <p:column headerText="SIAPE" sortBy="#{servidores.SIAPE}" 
+                                  filterBy="#{servidores.SIAPE}">
+                            <h:outputText value="#{servidores.SIAPE}"/>
+                        </p:column>
+
+                        <p:column headerText="Nome" sortBy="#{servidores.nome}" 
+                                  filterBy="#{servidores.nome}">
+                            <h:outputText value="#{servidores.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="Email" sortBy="#{servidores.email}" 
+                                  filterBy="#{servidores.email}">
+                            <h:outputText value="#{servidores.email}"/>
+                        </p:column>
+
+                        <p:column headerText="Regime de Trabalho" sortBy="#{servidores.regimeTrab}" 
+                                  filterBy="#{servidores.regimeTrab}">
+                            <h:outputText value="#{servidores.regimeTrab}"/>
+                        </p:column>
+
+                        <p:column headerText="Coordenação" sortBy="#{servidores.coordenacao.nome}"
+                                  filterBy="#{servidores.coordenacao.nome}">
+                            <h:outputText value="#{servidores.coordenacao.nome}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Nível" sortBy="#{servidores.nivel}"
+                                              filterBy="#{servidores.nivel}">
+                                        <h:outputText value="#{servidores.nivel}"/>
+                                    </p:column>
+
+                    </p:dataTable>
+                    <p:separator/>
+                    <p:commandButton value="Alterar" icon="ui-icon-pencil" oncomplete="location.href='AlterarServidor.xhtml'"/>
+                    <p:commandButton value="Excluir" icon="ui-icon-trash" oncomplete="dialogo2.show()" update="dial2"/>
+                </p:panel>
+
+                <p:dialog id="dial2" appendToBody="true" closable="false"
+                          resizable="false" modal="true" widgetVar="dialogo2">
+                    <h:outputText value="Deseja realmente excluir o servidor selecionado?"/>
+                    <br/>
+                    <center><p:commandButton value="sim" action="#{controladorservidor.excluirServidor(controladorservidor.selectedS)}"
+                                             oncomplete="dialogo3.show();dialogo2.hide()"/>
+                        <p:commandButton value="não" oncomplete="dialogo2.hide()"/></center>
+                </p:dialog>
+
+                <p:dialog id="dial3" appendToBody="true" closable="false"
+                          resizable="false" modal="true" widgetVar="dialogo3">
+                    <h:outputText value="Servidor excluido com sucesso!"/>
+                    <br/>
+                    <center><p:commandButton value="OK" oncomplete="dialogo3.hide()" update="tab"/></center>
+                </p:dialog>
+            </center>
+        </h:form>
+    </h:body>
+
+</html>

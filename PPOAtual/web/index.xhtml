@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Página Inicial</title>
+        
+        <style type="text/css">
+            body {
+                background-image: url(Imagens/index_image.jpg);
+                background-repeat: no-repeat;
+                -moz-background-size: 100% 795%;
+                -webkit-background-size: 100% 795%;
+                background-size: 100% 795%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <h:form>
+
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = 'Login.xhtml';
+                </script> 
+            </c:if>
+
+            <p:growl id="growl" showDetail="true" sticky="false" life="200"/>
+
+            <p:growl id="menu"/> 
+            <p:menubar>
+                <p:menuitem value="Início" icon="ui-icon-home" url="index.xhtml"/>
+
+                <p:submenu label="Atividades">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraAtividade.xhtml"/>
+                    <p:menuitem value="Visualizar Atividades" icon="ui-icon-search" update="menu" url="ApresentaAtividade.xhtml"/>
+                    <p:separator /> 
+                </p:submenu>
+
+
+
+                <p:submenu label="Plano Atividade">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraPlano.xhtml"/>
+                    <p:menuitem value="Visualizar Planos" icon="ui-icon-search" update="menu" url="ApresentaPlano.xhtml"/>
+
+
+                    <p:separator /> 
+                </p:submenu>
+
+                <p:submenu label="Servidor" icon="ui-icon-suitcase">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastroServidor.xhtml"/>
+                    <p:menuitem value="Visualizar Servidor" icon="ui-icon-search" update="menu" url="ApresentarServidor.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+
+                <p:submenu label="Coordenação" >
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraCoordenacao.xhtml"/>
+                    <p:menuitem value="Visualizar Coordenação" icon="ui-icon-search" update="menu" url="ApresentaCoordenacao.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+                <p:menuitem icon="ui-icon-power" value="Sair" action="#{controleLogin.sair()}" oncomplete="location.href='Login.xhtml'"/>
+            </p:menubar>
+
+
+
+            <br />
+
+        </h:form>
+    </h:body>
+</html>
+

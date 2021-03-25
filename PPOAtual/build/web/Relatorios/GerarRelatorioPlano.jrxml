@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GerarPlanoAtividade" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="da83ac4f-e9c7-4b13-988a-606b881fb173">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     planoatividade.`codigoP` AS planoatividade_codigoP,
+     planoatividade.`especificacao` AS planoatividade_especificacao,
+     planoatividade.`justificativa` AS planoatividade_justificativa,
+     planoatividade.`localAtv` AS planoatividade_localAtv,
+     atividade.`nome` AS atividade_nome,
+     atividade.`tipo` AS atividade_tipo
+FROM
+     `planoatividade` planoatividade,
+     `atividade` atividade]]>
+	</queryString>
+	<field name="planoatividade_codigoP" class="java.lang.Integer"/>
+	<field name="planoatividade_especificacao" class="java.lang.String"/>
+	<field name="planoatividade_justificativa" class="java.lang.String"/>
+	<field name="planoatividade_localAtv" class="java.lang.String"/>
+	<field name="atividade_nome" class="java.lang.String"/>
+	<field name="atividade_tipo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="99" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="79" height="99" uuid="d5274b4d-d53f-42f0-86f8-809a4cf7a390"/>
+				<imageExpression><![CDATA["C:\\Users\\LucasNote\\Desktop\\Índice.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="129" y="0" width="342" height="40" uuid="e9abf978-b1b8-4ace-a06e-867b47a11b11"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Plano de Atividades Docente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="40" width="342" height="59" uuid="f3090cc8-760a-4d40-9ff2-1798b1a7a928"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Instituto Federal de Ciência, Educação e Tecnologia de Pernambuco]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="100" height="20" uuid="abf4bee4-1866-4df4-864d-4319acd2bf30"/>
+				<text><![CDATA[Código:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="1" width="150" height="20" uuid="c6476036-f342-4cef-a952-e7d7becdefb3"/>
+				<text><![CDATA[Especificação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="1" width="146" height="20" uuid="533f143a-b552-480c-b14c-aeb523a7fe08"/>
+				<text><![CDATA[Justificativa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="0" width="100" height="20" uuid="c4856448-4bea-4c8d-b899-43d5130cd099"/>
+				<text><![CDATA[Nome da Atividade:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="dcdb5843-2378-4e52-9a95-017fa30bfbc5"/>
+				<textFieldExpression><![CDATA[$F{planoatividade_codigoP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="150" height="20" uuid="8a325132-f691-4b4a-a7b4-9a463f9bbf0a"/>
+				<textFieldExpression><![CDATA[$F{planoatividade_especificacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="146" height="20" uuid="cab5f0d8-0e59-480c-ad2b-afe86a40425a"/>
+				<textFieldExpression><![CDATA[$F{planoatividade_justificativa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="0" width="100" height="20" uuid="132368e5-0639-4072-aec1-7b8558814794"/>
+				<textFieldExpression><![CDATA[$F{planoatividade_atividade_nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

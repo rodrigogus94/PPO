@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+
+        <title>Cadastrar Servidor</title>
+ <style type="text/css">
+            body {
+                background-image: url(Imagens/index_image.jpg);
+                background-repeat: no-repeat;
+                -moz-background-size: 100% 100%;
+                -webkit-background-size: 100% 100%;
+                background-size: 100% 100%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+    
+       <h:form>
+          <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = 'Login.xhtml';
+                </script> 
+            </c:if>
+            <p:growl id="growl" showDetail="true" sticky="false" life="200"/>
+
+            <p:growl id="menu"/> 
+         <p:menubar>
+                <p:menuitem value="Início" icon="ui-icon-home" url="index.xhtml"/>
+
+                <p:submenu label="Atividades">
+                      <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraAtividade.xhtml"/>
+                        <p:menuitem value="Visualizar Atividades" icon="ui-icon-search" update="menu" url="ApresentaAtividade.xhtml"/>
+                        <p:separator /> 
+                    </p:submenu>
+
+               
+
+                <p:submenu label="Plano Atividade">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraPlano.xhtml"/>
+                    <p:menuitem value="Visualizar Planos" icon="ui-icon-search" update="menu" url="ApresentaPlano.xhtml"/>
+
+
+                    <p:separator /> 
+                </p:submenu>
+
+                <p:submenu label="Servidor" icon="ui-icon-suitcase">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastroServidor.xhtml"/>
+                    <p:menuitem value="Visualizar Servidor" icon="ui-icon-search" update="menu" url="ApresentarServidor.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+
+                <p:submenu label="Coordenação" >
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraCoordenacao.xhtml"/>
+                    <p:menuitem value="Visualizar Coordenação" icon="ui-icon-search" update="menu" url="ApresentaCoordenacao.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+                <p:menuitem icon="ui-icon-power" value="Sair" action="#{controleLogin.sair()}" oncomplete="location.href='Login.xhtml'"/>
+            </p:menubar>   
+            
+       
+            <center>
+            <p:panel header="Cadastrar Servidor">
+                    <p:panelGrid columns="2" styleClass="grid">
+
+                        <h:outputText value="SIAPE:"/>
+                        <p:inputText id="siape" value="#{Servidores.SIAPE}" size="40"/>
+
+                        <h:outputText value="Nome: "/>
+                        <p:inputText id="nome" value="#{Servidores.nome}" size="40"/>
+
+                        <h:outputText value="Email: "/>
+                        <p:inputText id="email" value="#{Servidores.email}" size="40"/>
+
+                        <h:outputText value="Regime de Trabalho: "/>
+                        <p:inputText id="regimeTrab" value="#{Servidores.regimeTrab}" size="40"/>
+                        
+                         <h:outputText value="Senha: "/>
+                         <p:password id="senha" value="#{Servidores.senha}" size="40"/>
+
+                          <h:outputText value="Administrador:" />
+                          <p:selectOneRadio id="nivel" value="#{Servidores.nivel}">  
+                                <f:selectItem itemLabel="Sim" itemValue="Sim" />  
+                                <f:selectItem itemLabel="Não" itemValue="Nao" />  
+                            </p:selectOneRadio> 
+                         
+                        <h:outputText value="Coordenação: "/>
+                        <p:selectOneListbox id="coordenacao" value="#{Servidores.coordenacao}" converter="entityConverter" style="height:200px"  immediate="true">  
+                            <f:selectItems value="#{controladorCoordenacao.recuperaTudo()}" var="coordenacao" itemLabel="#{coordenacao.nome}" itemValue="#{coordenacao}" />  
+                        </p:selectOneListbox>
+                        
+                        
+
+                    </p:panelGrid>
+
+                    <p:separator/> 
+
+                    <p:commandButton value="Cadastrar" action="#{controladorservidor.adicionarServidor(Servidores)}" ajax="false" />
+                
+            </p:panel>
+            </center>
+        </h:form>
+        
+    </h:body>
+</html>

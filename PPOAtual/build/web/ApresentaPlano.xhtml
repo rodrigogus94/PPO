@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Planos de Atividades Cadastrados</title>
+        <meta name="viewport" content="width=device-width"/>
+         <style type="text/css">
+            body {
+                background-image: url(Imagens/index_image.jpg);
+                background-repeat: no-repeat;
+                -moz-background-size: 100% 210%;
+                -webkit-background-size: 100% 210%;
+                background-size: 100% 170%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+      
+        <h:form id="form">
+            <c:if test="${controleLogin.loggedIn == false}">
+                <script>
+                    location.href = 'Login.xhtml';
+                </script> 
+            </c:if>
+          
+            <p:growl id="growl" showDetail="true" sticky="false" life="200"/>
+
+            <p:growl id="menu"/> 
+           <p:menubar>
+                <p:menuitem value="Início" icon="ui-icon-home" url="index.xhtml"/>
+
+                <p:submenu label="Atividades">
+                      <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraAtividade.xhtml"/>
+                        <p:menuitem value="Visualizar Atividades" icon="ui-icon-search" update="menu" url="ApresentaAtividade.xhtml"/>
+                        <p:separator /> 
+                    </p:submenu>
+
+               
+
+                <p:submenu label="Plano Atividade">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraPlano.xhtml"/>
+                    <p:menuitem value="Visualizar Planos" icon="ui-icon-search" update="menu" url="ApresentaPlano.xhtml"/>
+
+
+                    <p:separator /> 
+                </p:submenu>
+
+                <p:submenu label="Servidor" icon="ui-icon-suitcase">
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastroServidor.xhtml"/>
+                    <p:menuitem value="Visualizar Servidor" icon="ui-icon-search" update="menu" url="ApresentarServidor.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+
+                <p:submenu label="Coordenação" >
+                    <p:menuitem value="Adicionar" icon="ui-icon-circle-plus" update="menu" url="CadastraCoordenacao.xhtml"/>
+                    <p:menuitem value="Visualizar Coordenação" icon="ui-icon-search" update="menu" url="ApresentaCoordenacao.xhtml"/>
+                    <p:separator/>                             
+                </p:submenu>
+                <p:menuitem icon="ui-icon-power" value="Sair" action="#{controleLogin.sair()}" oncomplete="location.href='Login.xhtml'"/>
+            </p:menubar>   
+            
+            <center>
+                <p:panel header="Planos de Atividades Cadastrados">
+                    <p:dataTable id="tab" value="#{controladorPlanoAtividade.recuperarTodosPlanos()}" var="planoatividades"
+                                 rowKey="#{planoatividades.codigoP}" paginator="true" rows="10" 
+                                 selectionMode="single" selection="#{controladorPlanoAtividade.selected}"
+                                 emptyMessage="Náo há planos cadastradas.">
+                
+                        <p:column headerText="Codigo" sortBy="#{planoatividades.codigoP}" 
+                                  filterBy="#{planoatividades.codigoP}">
+                            <h:outputText value="#{planoatividades.codigoP}"/>
+                    </p:column>
+                    
+                        <p:column headerText="Especificação" sortBy="#{planoatividades.especificacao}" 
+                                  filterBy="#{planoatividades.especificacao}">
+                            <h:outputText value="#{planoatividades.especificacao}"/>
+                    </p:column>
+                    
+                        <p:column headerText="Local" sortBy="#{planoatividades.localAtv}" 
+                                  filterBy="#{planoatividades.localAtv}">
+                            <h:outputText value="#{planoatividades.localAtv}"/>
+                    </p:column>
+                        
+                        <p:column headerText="Justificativa" sortBy="#{planoatividades.justificativa}" 
+                                  filterBy="#{planoatividades.justificativa}">
+                            <h:outputText value="#{planoatividades.justificativa}"/>
+                    </p:column>
+                         
+                        <p:column headerText="Atividades" style="width:32px;text-align: center">
+                            <p:commandButton  oncomplete="dialogo4.show()" icon="ui-icon-search" title="Ver" update=":form:dial4"/>
+                
+                    </p:column>
+                       
+                                    
+                </p:dataTable>
+                <p:separator/>
+                <p:commandButton value="Alterar" icon="ui-icon-pencil" oncomplete="location.href='AlteraPlano.xhtml'"/>
+                <p:commandButton value="Excluir" icon="ui-icon-trash" oncomplete="dialogo2.show()" update="dial2"/>
+                <p:commandLink value="Gerar Relatório" action="#{gerarRelatorioPlano.preencherRelatorio()}" update=":form" ajax="false"/>
+                </p:panel>
+                
+              <p:dialog id="dial2" appendToBody="true" closable="false"
+                      resizable="false" modal="true" widgetVar="dialogo2">
+                <h:outputText value="Deseja realmente excluir o plano de atividades selecionado?"/>
+                <br/>
+                <center><p:commandButton value="sim" action="#{controladorPlanoAtividade.excluirPlano(controladorPlanoAtividade.selected)}"
+                                         oncomplete="dialogo3.show();dialogo2.hide()"/>
+                    <p:commandButton value="não" oncomplete="dialogo2.hide()"/></center>
+            </p:dialog>
+
+            <p:dialog id="dial3" appendToBody="true" closable="false"
+                      resizable="false" modal="true" widgetVar="dialogo3">
+                <h:outputText value="Plano excluido com sucesso!"/>
+                <br/>
+                <center><p:commandButton value="OK" oncomplete="dialogo3.hide()" update="tab"/></center>
+            </p:dialog>
+                
+                <p:dialog id="dial4" appendToBody="true" closable="true" resizable="false" modal="true" widgetVar="dialogo4">
+
+                    <p:dataTable id="tab2" value="#{controladorPlanoAtividade.selected.atividades}" var="atividade" 
+                                 rowKey="#{atividade.codigo}" emptyMessage="Sem Atividades.">
+
+                        <p:column headerText="Nome" sortBy="#{atividade.nome}">
+                            <h:outputText value="#{atividade.nome}"/>
+                    </p:column> 
+                        <p:column headerText="Tipo" sortBy="#{atividade.tipo}">
+                            <h:outputText value="#{atividade.tipo}"/>
+                    </p:column> 
+
+                </p:dataTable>
+            </p:dialog>
+                
+            </center>
+        </h:form>
+    </h:body>
+</html>
+
